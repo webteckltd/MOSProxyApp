@@ -1,0 +1,93 @@
+<!ELEMENT WIN_RECEIPTS (SMSRECEIPT+)>
+
+<!ELEMENT SMSRECEIPT (
+	SERVICEID, 
+	SOURCE_ADDR, 
+	TRANSACTIONID, 
+        NETWORKID, 
+	STATUSID, 
+	STATUSDATETIME, 
+	TOTALFRAGMENTNO, 
+	FRAGMENTID
+)>
+
+<!ELEMENT SERVICEID (#PCDATA)>   
+  <!-- INT, service of message -->
+
+<!ELEMENT SOURCE_ADDR (#PCDATA)> 
+  <!-- originating mobile number in international format -->
+
+<!ELEMENT TRANSACTIONID (#PCDATA)> 
+  <!-- max. 50 characters. allocated by the third party service when MT was requested. -->
+
+<!ELEMENT NETWORKID (#PCDATA)>
+  <!-- 
+    The network that generated the status has been generated where applicable.
+    Possible values :
+    -1 when not applicable e.g. a WIN internal interim status.
+     1 =Voda
+     2 = O2
+     3 = Orange
+     4 = TMobile
+     etc...
+     See Interface Definition Document for more comprehensive list.
+
+     NOTE this NetworkID is NOT necessarily the network of the mobile phone 
+     targeted with an MT.
+     E.g. a free to end user MT targeted at a Vodafone phone may get delivered via O2
+
+     A complete list of the possible NetworkID values is available within 
+     CommonIdentifiers.DOC from the standard gateway readme.htm page.
+  -->
+
+  <!ELEMENT STATUSID (#PCDATA)> 
+    <!-- 
+    INT see User Guide for details 
+    A complete list of possible values is within the Interface Definition Document.
+    Some statuses are interim, some are final.
+    Which are received are effected by the delivery receipt type choice within the MT request.
+    The IDD also provides a guide as to when to retry failed deliveries.
+    Some common values are :
+      1	WIN Processing
+      2	Delivered To Network (final)
+      3	Delivered To Network (intermediate)
+      4	Operator is Retrying Message
+      5	Delivered To Phone
+      etc
+
+   -->
+
+  <!ELEMENT STATUSDATETIME (DD, MMM, YYYY, HH, MM, SS)> <!-- Time message arrived -->
+
+  <!ELEMENT DD (#PCDATA)>   <!-- Day of month (1-31) -->
+  <!ELEMENT MMM (#PCDATA)>  <!--3 character month description (JAN, FEB ... DEC) -->
+  <!ELEMENT YYYY (#PCDATA)> <!-- year  -->
+  <!ELEMENT HH (#PCDATA)>   <!-- Hour of day (0-23) -->
+  <!ELEMENT MM (#PCDATA)>   <!--Minute of hour (0-59) -->
+  <!ELEMENT SS (#PCDATA)>   <!--Seconds of minute (0-59) -->
+
+  <!-- Message Fragments
+  Some messages are encoded at WIN resulting in multiple fragments e.g. Ringtones.
+  For these, each of the fragments results in status codes being issued.
+
+  Thus the  addition of elements for the delivery receipt reporting of 
+  fragments for multipart messages :
+  -->
+
+<!ELEMENT TOTALFRAGMENTNO (#PCDATA)> 
+  <!-- 
+  INT, total number of encoded sms msgs 
+  This is the total number of fragments for the overall message group
+
+  i.e. For ring tone conversion, fragment 0 of 3 would relate to the parent initial 
+  request, and 1, 2 and 3 to the fragments created as result of the request.
+  -->
+
+<!ELEMENT FRAGMENTID (#PCDATA)>     
+  <!-- 
+  INT, to which encoded sms msgs number this delivery receipt relates 
+  This is the fragment number within the group i.e. 2 of 3 etc. 
+  -->
+
+
+

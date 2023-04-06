@@ -1,0 +1,41 @@
+<!ELEMENT SMSRESPONSE ( REQUESTID )>
+
+<!ELEMENT REQUESTID (#PCDATA)>   
+  <!-- 
+  max 50 characters 
+
+  For the WIN HTTP interface the value of REQUESTID from WIN will contain a string of the form : 
+
+    HTTP_Tx_IDyyyyy_Rzzz 
+
+  where :
+     x = table number (32bit int)
+   yyy = Identity column on WIN database ( x and yyy uniquely identifies the submission to WIN, 32 bit integer)
+   zzz = 'R' Return Status Code (32bit int)
+
+  'R' Return Codes :
+
+  301 = Invalid XML
+  302 = Invalid Login
+  406 = Encoding Types unmatched
+  407 = DTD or XML Schema not known
+  409 = Invalid HTTP Content Type, should start with "application/x-www-form-urlencoded"
+  410 = DTD not found.
+  416 = WIN website Internal - exSQL
+  417 = WIN website Internal - exGen
+  418 = WIN website Internal - exUA
+  419 = Max_no_of_simultaneous_connections_exceeded (HTTP connection limit is 10)
+  423 = Configuration Database not currently available
+  424 = Target Database not currently available
+  425 = Configuration Database connection string invalid format
+  426 = Target Database connection string invalid format 
+  more error codes may be added in the future
+  2000 to 3000 = Error codes reserved for third parties to assign, please notify WIN of the meaning
+
+  e.g. HTTP_T1_ID679894_R0 
+  e.g. HTTP_T1_ID0_R302
+
+  -->
+
+
+ 
